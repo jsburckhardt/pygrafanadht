@@ -1,0 +1,4 @@
+CREATE USER "rpi-3" WITH PASSWORD 'rpi-3'
+GRANT ALL ON "sensor_data" TO "rpi-3"
+CREATE USER "grafana" WITH PASSWORD 'grafana'
+GRANT READ ON "sensor_data" TO "grafana"
