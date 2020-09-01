@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import time
 import sys
 import datetime
@@ -22,14 +23,14 @@ sensor_gpio = 22
 # think of measurement as a SQL table, it's not...but...
 measurement = "rpi-dht22"
 # location will be used as a grouping tag later
-location = "office"
+location = "babymonitor"
 
 # Run until you get a ctrl^c
 try:
     while True:
         # Read the sensor using the configured driver and gpio
         humidity, temperature = Adafruit_DHT.read_retry(sensor, sensor_gpio)
-        iso = time.ctime()
+        iso = time.time_ns()
         # Print for debugging, uncomment the below line
         print("[%s] Temp: %s, Humidity: %s" % (iso, temperature, humidity))
         # Create the JSON data structure
@@ -47,9 +48,14 @@ try:
             }
         ]
         # Send the JSON data to InfluxDB
-        client.write_points(data)
+        if humidity < 100:
+            client.write_points(data)
         # Wait until it's time to query again...
         time.sleep(interval)
 
 except KeyboardInterrupt:
     pass
+
+### run in pi
+# nohup python3 py-grafana-dht.py &
+# ps ax | grep py-grafana-dht

@@ -1,4 +1,8 @@
+CREATE DATABASE "motion_data"
+CREATE DATABASE "sensor_data"
 CREATE USER "rpi-3" WITH PASSWORD 'rpi-3'
 GRANT ALL ON "sensor_data" TO "rpi-3"
+GRANT ALL ON "motion_data" TO "rpi-3"
 CREATE USER "grafana" WITH PASSWORD 'grafana'
 GRANT READ ON "sensor_data" TO "grafana"
+GRANT READ ON "motion_data" TO "grafana"
